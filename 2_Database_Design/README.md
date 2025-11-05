@@ -4,7 +4,7 @@
 
 Below is the Extended Entity Relationship Diagram (EERD) for the Together Culture Database System.
 
-![EERD](../diagrams/EERD_TogetherCulture.png)
+![EERD](..//2_Database_Design/EERD_TogetherCulture.png)
 
 Fig1: Illustrates the EERD of our database, we built it considering the different aggregations and generalizations, where certain tables will be deleted when other records are gone. For example, when a UserBooking is deleted, we would not delete all events attached to bookings. Or when deleting a User, you should be deleting the MailChimp Attached to them.
 
@@ -104,24 +104,29 @@ This database will help Together Culture to manage efficiently the community eng
 |                       | last_attendance_date | DATE              | The most recent date the user attended the space.      |
 |                       | user_tags            | INT               | References the list of tags associated with the users. |
 |                       | benefit_id           | INT               | References benefits associated with memberships.       |
+
 | **Event**             | event_id             | INT (Primary Key) | Unique identifier for each event.                      |
 |                       | event_name           | VARCHAR(100)      | Name of the event.                                     |
 |                       | location             | VARCHAR(100)      | Location of the event.                                 |
 |                       | maximum_capacity     | INT               | Maximum number of participants allowed.                |
 |                       | ticket_quantity      | INT               | Number of tickets available for the event.             |
 |                       | event_tags           | INT (Foreign Key) | References the list of tags associated with event.     |
+
 | **UserTag**           | usertag_id           | INT (Primary Key) | Unique identifier for each tag.                        |
 |                       | usertag_name         | VARCHAR(50)       | Name of the tag.                                       |
 |                       | usertag_type         | VARCHAR(50)       | Type of tag (e.g. category).                           |
+
 | **EventTag**          | eventtag_id          | INT (Primary Key) | Unique identifier for each tag.                        |
 |                       | eventtag_name        | VARCHAR(50)       | Name of the tag.                                       |
 |                       | eventtag_type        | VARCHAR(50)       | Type of tag (e.g. interest).                           |
+
 | **UserBooking**       | user_booking_id      | INT (Primary Key) | Unique identifier for each booking.                    |
 |                       | user_id              | INT (Foreign Key) | References the user making the booking.                |
 |                       | event_id             | INT (Foreign Key) | References the event being booked.                     |
 |                       | workspace_id         | INT (Foreign Key) | References the workspace reserved.                     |
 |                       | timeslot_id          | INT (Foreign Key) | References the time slot reserved.                     |
 |                       | total_price          | DECIMAL(10,2)     | Total price of the booking.                            |
+
 | **Workspace**         | workspace_id         | INT (Primary Key) | Unique identifier for each workspace.                  |
 |                       | private_public       | VARCHAR(10)       | Indicates if the workspace is private or public.       |
 |                       | workspace_type       | VARCHAR(50)       | Type of workspace (e.g., meeting room, desk).          |
@@ -129,17 +134,21 @@ This database will help Together Culture to manage efficiently the community eng
 |                       | workspace_capacity   | INT               | Maximum capacity of the workspace.                     |
 |                       | usage_count          | INT               | Number of times the workspace has been used.           |
 |                       | current_utilization  | DECIMAL(5,2)      | Current percentage of workspace utilization.           |
+
 | **TimeSlot**          | timeslot_id          | INT (Primary Key) | Unique identifier for each time slot.                  |
 |                       | start_time           | TIME              | Start time of the slot.                                |
 |                       | end_time             | TIME              | End time of the slot.                                  |
 |                       | isAvailable          | BOOLEAN           | Indicates if the slot is available for booking.        |
+
 | **Ticket**            | ticket_id            | INT (Primary Key) | Unique identifier for each ticket.                     |
 |                       | event_id             | INT (Foreign Key) | References the event being booked.                     |
 |                       | ticket_quantity      | INT               | Number of tickets purchased or available.              |
 |                       | ticket_price         | DECIMAL(10,2)     | Price of the ticket.                                   |
+
 | **Benefits**          | benefit_id           | INT (Primary Key) | Unique identifier for each benefit.                    |
 |                       | time_bank            | INT               | Amount of time available in the user’s time bank.      |
 |                       | classes              | INT               | Number of classes available to the user.               |
+
 | **MailChimp**         | mail_id              | INT (Primary Key) | Unique identifier for each mail record.                |
 |                       | user_id              | INT (Foreign Key) | References the user making the booking.                |
 |                       | view_password        | VARCHAR(255)      | Password for secure email viewing.                     |
@@ -147,6 +156,7 @@ This database will help Together Culture to manage efficiently the community eng
 |                       | materials_needs      | BOOLEAN           | Indicates if the user requested materials.             |
 |                       | creative_goals       | TEXT              | User’s goals for using creative resources.             |
 |                       | member_rating        | DECIMAL(3,2)      | User’s engagement or satisfaction rating.              |
+
 | **ProspectiveMember** | prospective_id       | INT (Primary Key) | Unique identifier for each prospective member.         |
 |                       | mail_id              | INT (Foreign Key) | References the marketing-related data.                 |
 |                       | interaction_type     | VARCHAR(50)       | Type of interaction (e.g., email, webinar).            |
