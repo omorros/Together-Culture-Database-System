@@ -1,0 +1,87 @@
+-- Query 1: Patterns of Member Space Usage Over Time
+SELECT DATE_FORMAT(timeslot.start_time, '%Y-%m') AS usage_month, 
+       COUNT(userbooking.user_id) AS total_usage
+FROM userbooking
+JOIN timeslot ON userbooking.timeslot_id = timeslot.timeslot_id
+GROUP BY usage_month
+ORDER BY usage_month;
+
+-- Query 2: Weekly Peak Days
+SELECT DAYNAME(timeslot.start_time) AS day_of_week, 
+       COUNT(userbooking.user_id) AS total_attendance
+FROM userbooking
+JOIN timeslot ON userbooking.timeslot_id = timeslot.timeslot_id
+GROUP BY day_of_week
+ORDER BY total_attendance DESC;
+
+-- Query 3: Busiest Times of Day
+SELECT HOUR(timeslot.start_time) AS hour_of_day, 
+       COUNT(userbooking.user_id) AS total_usage
+FROM userbooking
+JOIN timeslot ON userbooking.timeslot_id = timeslot.timeslot_id
+GROUP BY hour_of_day
+ORDER BY total_usage DESC;
+
+-- Query 4: Event Attendance
+SELECT event.event_name, 
+       COUNT(userbooking.event_id) AS total_attendance
+FROM userbooking
+JOIN event ON userbooking.event_id = event.event_id
+GROUP BY event.event_name
+ORDER BY total_attendance DESC;
+
+-- Query 5: Event Tags and Interests
+SELECT eventtag.eventtag_name, 
+       COUNT(event.event_id) AS event_count
+FROM event
+JOIN eventtag ON event.event_tags = eventtag.eventtag_id
+GROUP BY eventtag.eventtag_name
+ORDER BY event_count DESC;
+
+-- Query 6: Workspace Utilization
+SELECT workspace.workspace_type, 
+       AVG(workspace.current_utilization) AS avg_utilization
+FROM workspace
+GROUP BY workspace.workspace_type
+ORDER BY avg_utilization DESC;
+
+-- Query 7: Member Attendance Change
+SELECT user_id, 
+       DATE_FORMAT(timeslot.start_time, '%Y-%m') AS usage_month, 
+       COUNT(userbooking.user_booking_id) AS total_bookings
+FROM userbooking
+JOIN timeslot ON userbooking.timeslot_id = timeslot.timeslot_id
+WHERE user_id = 1
+GROUP BY usage_month
+ORDER BY usage_month;
+
+-- Query 8: Engagement Trends
+SELECT user_id, 
+       COUNT(event_id) AS total_events
+FROM userbooking
+WHERE userbooking.timeslot_id IN (
+    SELECT timeslot_id FROM timeslot WHERE start_time BETWEEN '2024-01-01' AND '2024-12-31'
+)
+GROUP BY user_id
+ORDER BY total_events DESC;
+
+-- Query 9: Members Attending Multiple Types of Events
+SELECT user.user_id, 
+       user.full_name, 
+       COUNT(DISTINCT event.event_tags) AS distinct_event_types
+FROM userbooking
+JOIN user ON userbooking.user_id = user.user_id
+JOIN event ON userbooking.event_id = event.event_id
+GROUP BY user.user_id, user.full_name
+HAVING distinct_event_types > 1
+ORDER BY distinct_event_types DESC;
+
+-- Query 10: Frequent Workspace Bookers
+SELECT user.user_id, 
+       user.full_name, 
+       COUNT(userbooking.workspace_id) AS total_workspace_bookings
+FROM userbooking
+JOIN user ON userbooking.user_id = user.user_id
+WHERE userbooking.workspace_id IS NOT NULL
+GROUP BY user.user_id, user.full_name
+ORDER BY total_workspace_bookings DESC;
