@@ -4,9 +4,9 @@
 
 Below is the Extended Entity Relationship Diagram (EERD) for the Together Culture Database System.
 
-![EERD](../diagrams/EERD_TogetherCulture.png)
+![EERD](/2_Database_Design/EERD_TogetherCulture.png)
 
-Fig1: Illustrates the EERD of our database, we built it considering the different aggregations and generalizations, where certain tables will be deleted when other records are gone. For example, when a UserBooking is deleted, we would not delete all events attached to bookings. Or when deleting a User, you should be deleting the MailChimp Attached to them.
+Fig1: Illustrates the EERD of the database, was built considering the different aggregations and generalizations, where certain tables will be deleted when other records are gone. For example, when a UserBooking is deleted, would not delete all events attached to bookings. Or when deleting a User, you should be deleting the MailChimp Attached to them.
 
 This database system is created and designed to help the company Together Culture Cambridge manage their workspace booking, member subscriptions and events organized. The main objective is to help the company improve all the services they offer in a more simplified way and manage efficiently all the community interactions.
 
